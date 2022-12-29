@@ -6,7 +6,6 @@ import { getFilter } from 'redux/selectors';
 const Filter = () => {
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
-
   const handleOnChange = e => dispatch(setFilter(e.target.value));
 
   return (
