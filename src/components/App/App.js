@@ -1,38 +1,13 @@
-import { useEffect, useState } from 'react';
 import ContactForm from '../ContactForm';
 import ContactList from '../ContactList';
-import Filter from '../Filter';
 import { Container, TitleForm, TitleContacts } from './App.styled';
-import shortid from 'shortid';
+import { useSelector } from 'react-redux';
+import { getContacts, getFilter } from 'redux/selectors';
+import Filter from 'components/Filter';
 
 export const App = () => {
-  const [contacts, setContacts] = useState(() => {
-    if (window.localStorage.getItem('contacts')) {
-      return JSON.parse(window.localStorage.getItem('contacts'));
-    }
-    return [];
-  });
-  const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  });
-
-  const addContact = newContact => {
-    for (let contact of contacts) {
-      if (newContact.name.toLowerCase() === contact.name.toLowerCase()) {
-        alert(`${newContact.name} is already in contacts`);
-        return;
-      }
-    }
-    const id = shortid.generate();
-    const newAddContact = { ...newContact, id: id };
-    setContacts(prevState => [newAddContact, ...prevState]);
-  };
-
-  const deleteContact = id => {
-    setContacts(prevState => prevState.filter(contact => contact.id !== id));
-  };
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
 
   const getFilterList = () => {
     const normalizedFilter = filter.toLowerCase();
@@ -46,17 +21,15 @@ export const App = () => {
   return (
     <Container>
       <TitleForm>Phonebook</TitleForm>
-      <ContactForm onFormSubmit={addContact} />
+      <ContactForm />
       <TitleContacts>Contacts</TitleContacts>
       {filterList.length > 0 && (
         <>
-          <Filter value={filter} onChange={setFilter} />
-          <ContactList listContacts={filterList} handleCLick={deleteContact} />
+          <Filter />
+          <ContactList />
         </>
       )}
-      {filterList.length === 0 && contacts.length > 0 && (
-        <Filter value={filter} onChange={setFilter} />
-      )}
+      {filterList.length === 0 && contacts.length > 0 && <Filter />}
     </Container>
   );
 };
