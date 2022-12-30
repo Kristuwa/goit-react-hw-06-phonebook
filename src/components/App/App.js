@@ -15,13 +15,11 @@ export const App = () => {
       <TitleForm>Phonebook</TitleForm>
       <ContactForm />
       <TitleContacts>Contacts</TitleContacts>
-      {filterList.length > 0 && (
-        <>
-          <Filter />
-          <ContactList />
-        </>
+      {contacts.length === 0 && (
+        <p>You have no contacts, add your first contact</p>
       )}
-      {filterList.length === 0 && contacts.length > 0 && <Filter />}
+      {contacts.length > 0 && <Filter />}
+      {filterList.length > 0 && <ContactList />}
     </Container>
   );
 };
