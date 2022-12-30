@@ -2,8 +2,9 @@ import ContactForm from '../ContactForm';
 import ContactList from '../ContactList';
 import { Container, TitleForm, TitleContacts } from './App.styled';
 import { useSelector } from 'react-redux';
-import { getContacts, getFilterList } from 'redux/selectors';
+import { getFilterList } from 'redux/selectors';
 import Filter from 'components/Filter';
+import { getContacts } from 'redux/contacts/selectors';
 
 export const App = () => {
   const contacts = useSelector(getContacts);
